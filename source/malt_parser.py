@@ -61,6 +61,3 @@ table = {
 string = "happy children like to play with their friends"
 parser = MaltParser(table)
 parser.parse(string.split())
-# for s in string.split():
-#     if s in table:
-#         print(table[s])
