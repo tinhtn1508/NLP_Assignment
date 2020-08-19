@@ -38,6 +38,7 @@ class Tree:
         childNode.addParent(parentNode, edgeType)
         self.__nodeTable[startKey] = parentNode
         self.__nodeTable[endKey] = childNode
+        print("---> push edge: [{}] --- {} ---> [{}]".format(startKey, edgeType, endKey))
 
     def getRoot(self):
         if "ROOT" not in self.__nodeTable:

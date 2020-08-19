@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 from stack import Stack
 from queue import Queue
 from tree import Tree
@@ -5,9 +7,9 @@ from tree import Tree
 class MaltParser:
     def __init__(self, relationTable):
         self.relationTable = relationTable
-        self.tree = Tree()
-        self.stack = Stack()
-        self.queue = Queue()
+        self.tree = None
+        self.stack = None
+        self.queue = None
 
     def __getRelation(self, item1, item2):
         if item1 not in self.relationTable:
@@ -17,6 +19,11 @@ class MaltParser:
         return self.relationTable[item1][item2]
 
     def parse(self, strlst):
+        self.tree = Tree()
+        self.stack = Stack()
+        self.queue = Queue()
+        rootWord = None
+
         if strlst is None or len(strlst) <= 0:
             raise Exception("invalid string list: {}".format(strlst))
 
@@ -44,20 +51,46 @@ class MaltParser:
             rarc = self.__getRelation(lItem, rItem)
             if rarc is not None:
                 self.tree.pushEdge(lItem, rItem, rarc)
+                self.stack.push(self.queue.dequeue())
+                if rarc == "root":
+                    rootWord = rItem
+                continue
+
+            if rootWord is not None:
+                rootRelation = self.__getRelation(rootWord, rItem)
+                if rootRelation is not None:
+                    while len(self.stack) > 2:
+                        self.stack.pop()
+                    self.tree.pushEdge(rootWord, rItem, rootRelation)
+                    self.stack.push(self.queue.dequeue())
+                    continue
 
             self.stack.push(self.queue.dequeue())
         self.tree.printTree()
 
 
+# table = {
+#     "children": { "happy": "amod" },
+#     "like": { "children": "nsubj", "play": "xcomp", ".": "punc" },
+#     "ROOT": { "like": "root" },
+#     "play": { "to": "aux", "with": "prep" },
+#     "friends": {"their": "poss"},
+#     "with": {"friends": "pobj"},
+# }
+
+# string = "happy children like to play with their friends ."
+# parser = MaltParser(table)
+# parser.parse(string.split())
+
+
 table = {
-    "children": { "happy": "amod" },
-    "like": { "children": "nsubj", "play": "xcomp", ".": "punc" },
-    "ROOT": { "like": "root" },
-    "play": { "to": "aux", "with": "prep" },
-    "friends": {"their": "poss"},
-    "with": {"friends": "pobj"},
+    "ROOT": { "den": "root" },
+    "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time" },
+    "nao": { "xe_bus": "lsubj" },
+    "thanh_pho": { "Hue": "name" },
+    "luc": { "20HR": "time-hour" },
 }
 
-string = "happy children like to play with their friends"
+string = "xe_bus nao den thanh_pho Hue luc 20HR"
 parser = MaltParser(table)
 parser.parse(string.split())
