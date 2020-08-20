@@ -3,7 +3,7 @@
 from stack import Stack
 from queue import Queue
 from tree import Tree
-
+from tokenize import Tokenize
 class MaltParser:
     def __init__(self, relationTable):
         self.relationTable = relationTable
@@ -87,10 +87,11 @@ table = {
     "ROOT": { "den": "root" },
     "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time" },
     "nao": { "xe_bus": "lsubj" },
-    "thanh_pho": { "Hue": "name" },
-    "luc": { "20HR": "time-hour" },
+    "thanh_pho": { "<VAR>hue": "name" },
+    "luc": { "<VAR>20:00hr": "time-hour" },
 }
 
-string = "xe_bus nao den thanh_pho Hue luc 20HR"
+string = Tokenize('Xe bus nào đến thành phố Huế  luc 20:00HR ?').parse()
+print(string)
 parser = MaltParser(table)
-parser.parse(string.split())
+parser.parse(string)
