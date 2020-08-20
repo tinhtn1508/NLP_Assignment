@@ -23,6 +23,16 @@ class TreeNode:
         for k in self.children:
             yield k
 
+    def childrenIter(self):
+        for k in self.children:
+            yield self.children[k]
+
+    def numChildren(self):
+        return len(self.children)
+
+    def nodeName(self):
+        return self.key
+
 class Tree:
     def __init__(self):
         self.__nodeTable = dict()
@@ -38,7 +48,7 @@ class Tree:
         childNode.addParent(parentNode, edgeType)
         self.__nodeTable[startKey] = parentNode
         self.__nodeTable[endKey] = childNode
-        print("---> push edge: [{}] --- {} ---> [{}]".format(startKey, edgeType, endKey))
+        # print("---> push edge: [{}] --- {} ---> [{}]".format(startKey, edgeType, endKey))
 
     def getRoot(self):
         if "ROOT" not in self.__nodeTable:
