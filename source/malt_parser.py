@@ -11,7 +11,7 @@ class MaltParser:
     def __getRelation(self, item1, item2):
         value1 = item1
         value2 = item2
-        print("get relation {} --- {}".format(item1, item2))
+        # print("get relation {} --- {}".format(item1, item2))
         if item1[0:9] in set(("<VAR-LOC>", "<VAR-TIM>", "<VAR-BUS>")):
             value1 = item1[9:]
             item1 = item1[0:9]
@@ -40,10 +40,10 @@ class MaltParser:
         stack.push("ROOT")
 
         while(len(queue) > 0):
-            print("=================================")
-            print(stack)
-            print(queue)
-            print("=================================")
+            # print("=================================")
+            # print(stack)
+            # print(queue)
+            # print("=================================")
             rItem = queue.getHead()
             lItem = stack.getHead()
             if rItem is None or lItem is None:
@@ -78,14 +78,14 @@ class MaltParser:
             stack.push(queue.dequeue())
         return tree
 
-questions = ["Xe bus nào đến thành phố Huế lúc 20:00HR ?",
-             "Thời gian xe bus B3 đi từ Đà Nẵng đến Huế ?",
-             "Xe bus nào đến thành phố Hồ Chí Minh ?",
-             "Những xe bus nào đi đến Huế ?",
-             "Những xe nào xuất phát từ thành phố Hồ Chí Minh ?",
-             "Những xe nào đi từ Đà nẵng đến thành phố Hồ Chí Minh ?"]
+# questions = ["Xe bus nào đến thành phố Huế lúc 20:00HR ?",
+#              "Thời gian xe bus B3 đi từ Đà Nẵng đến Huế ?",
+#              "Xe bus nào đến thành phố Hồ Chí Minh ?",
+#              "Những xe bus nào đi đến Huế ?",
+#              "Những xe nào xuất phát từ thành phố Hồ Chí Minh ?",
+#              "Những xe nào đi từ Đà nẵng đến thành phố Hồ Chí Minh ?"]
 
-for question in questions:
-    string = Tokenize(question).parse()
-    parser = MaltParser(ruleTable)
-    parser.parse(string).printTree()
+# for question in questions:
+#     string = Tokenize(question).parse()
+#     parser = MaltParser(ruleTable)
+#     parser.parse(string).printTree()
