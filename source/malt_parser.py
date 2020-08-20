@@ -2,6 +2,7 @@ from stack import Stack
 from queue import Queue
 from tree import Tree
 from tokenize import Tokenize
+from database import ruleTable
 
 class MaltParser:
     def __init__(self, relationTable):
@@ -77,46 +78,14 @@ class MaltParser:
             stack.push(queue.dequeue())
         return tree
 
+questions = ["Xe bus nào đến thành phố Huế lúc 20:00HR ?",
+             "Thời gian xe bus B3 đi từ Đà Nẵng đến Huế ?",
+             "Xe bus nào đến thành phố Hồ Chí Minh ?",
+             "Những xe bus nào đi đến Huế ?",
+             "Những xe nào xuất phát từ thành phố Hồ Chí Minh ?",
+             "Những xe nào đi từ Đà nẵng đến thành phố Hồ Chí Minh ?"]
 
-# table = {
-#     "children": { "happy": "amod" },
-#     "like": { "children": "nsubj", "play": "xcomp", ".": "punc" },
-#     "ROOT": { "like": "root" },
-#     "play": { "to": "aux", "with": "prep" },
-#     "friends": {"their": "poss"},
-#     "with": {"friends": "pobj"},
-# }
-
-# string = "happy children like to play with their friends ."
-# parser = MaltParser(table)
-# parser.parse(string.split())
-
-
-# table = {
-#     "ROOT": { "den": "root" },
-#     "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time" },
-#     "nao": { "xe_bus": "lsubj" },
-#     "thanh_pho": { "<VAR-LOC>": "<var>name" },
-#     "luc": { "<VAR-TIM>": "<var>time-hour" },
-# }
-
-# string = Tokenize('Xe bus nào đến thành phố Huế luc 20:00HR ?').parse()
-# print(string)
-# parser = MaltParser(table)
-# parser.parse(string)
-
-table = {
-    "ROOT": { "den": "root", "di": "root", "xuat_phat": "root"},
-    "xuat_phat": {"nao": "which-query", "tu": "from-to"},
-    "tu": {"thanh_pho": "to_loc", "<VAR-LOC>": "<var>name"},
-    "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time", "<VAR-LOC>": "<var>name"},
-    "di": {"nao": "which-query", "den": "to-city", "tu": "from-to"},
-    "nao": { "xe_bus": "lsubj", "xe": "lsubj", "nhung": "plural"},
-    "thanh_pho": { "<VAR-LOC>": "<var>name" },
-    "luc": { "<VAR-TIM>": "<var>time-hour" },
-}
-
-string = Tokenize('Những xe nào đi từ Đà nẵng đến thành phố Hồ Chí Minh').parse()
-print(string)
-parser = MaltParser(table)
-parser.parse(string).printTree()
+for question in questions:
+    string = Tokenize(question).parse()
+    parser = MaltParser(ruleTable)
+    parser.parse(string).printTree()
