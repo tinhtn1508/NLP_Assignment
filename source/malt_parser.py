@@ -108,7 +108,7 @@ class MaltParser:
 table = {
     "ROOT": { "den": "root", "di": "root", "xuat_phat": "root"},
     "xuat_phat": {"nao": "which-query", "tu": "from-to"},
-    "tu": {"thanh_pho": "to_loc", "<VAR-LOC>": "<var>name", "den": "to-to"},
+    "tu": {"thanh_pho": "to_loc", "<VAR-LOC>": "<var>name"},
     "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time", "<VAR-LOC>": "<var>name"},
     "di": {"nao": "which-query", "den": "to-city", "tu": "from-to"},
     "nao": { "xe_bus": "lsubj", "xe": "lsubj", "nhung": "plural"},
