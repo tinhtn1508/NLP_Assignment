@@ -1,9 +1,8 @@
-# -*- coding: utf8 -*-
-
 from stack import Stack
 from queue import Queue
 from tree import Tree
 from tokenize import Tokenize
+
 class MaltParser:
     def __init__(self, relationTable):
         self.relationTable = relationTable
@@ -12,11 +11,20 @@ class MaltParser:
         self.queue = None
 
     def __getRelation(self, item1, item2):
+        value1 = item1
+        value2 = item2
+        if item1[0:9] in set(("<VAR-LOC>", "<VAR-TIM>", "<VAR-BUS>")):
+            value1 = item1[9:]
+            item1 = item1[0:9]
+        if item2[0:9] in set(("<VAR-LOC>", "<VAR-TIM>", "<VAR-BUS>")):
+            value2 = item2[9:]
+            item2 = item2[0:9]
+
         if item1 not in self.relationTable:
             return None
         if item2 not in self.relationTable[item1]:
             return None
-        return self.relationTable[item1][item2]
+        return value1, value2, self.relationTable[item1][item2]
 
     def parse(self, strlst):
         self.tree = Tree()
@@ -44,15 +52,15 @@ class MaltParser:
 
             larc = self.__getRelation(rItem, lItem)
             if larc is not None:
-                self.tree.pushEdge(rItem, lItem, larc)
+                self.tree.pushEdge(*larc)
                 self.stack.pop()
                 continue
 
             rarc = self.__getRelation(lItem, rItem)
             if rarc is not None:
-                self.tree.pushEdge(lItem, rItem, rarc)
+                self.tree.pushEdge(*rarc)
                 self.stack.push(self.queue.dequeue())
-                if rarc == "root":
+                if rarc[2] == "root":
                     rootWord = rItem
                 continue
 
@@ -61,7 +69,7 @@ class MaltParser:
                 if rootRelation is not None:
                     while len(self.stack) > 2:
                         self.stack.pop()
-                    self.tree.pushEdge(rootWord, rItem, rootRelation)
+                    self.tree.pushEdge(*rootRelation)
                     self.stack.push(self.queue.dequeue())
                     continue
 
@@ -87,11 +95,11 @@ table = {
     "ROOT": { "den": "root" },
     "den": { "nao": "which-query", "thanh_pho": "to-loc", "luc": "arrive-time" },
     "nao": { "xe_bus": "lsubj" },
-    "thanh_pho": { "<VAR>hue": "name" },
-    "luc": { "<VAR>20:00hr": "time-hour" },
+    "thanh_pho": { "<VAR-LOC>": "<var>name" },
+    "luc": { "<VAR-TIM>": "<var>time-hour" },
 }
 
-string = Tokenize('Xe bus nào đến thành phố Huế  luc 20:00HR ?').parse()
+string = Tokenize('Xe bus nào đến thành phố Huế luc 20:00HR ?').parse()
 print(string)
 parser = MaltParser(table)
 parser.parse(string)

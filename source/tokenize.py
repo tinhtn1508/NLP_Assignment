@@ -19,17 +19,17 @@ combineWordTable = {
                     'xe bus': 'xe_bus',
                     'thanh pho': 'thanh_pho',
                     'thoi gian': 'thoi_gian',
-                    'da nang': '<VAR>da_nang',
-                    'ho chi minh': '<VAR>ho_chi_minh',
+                    'da nang': '<VAR-LOC>da_nang',
+                    'ho chi minh': '<VAR-LOC>ho_chi_minh',
                     'xuat phat': 'xuat_phat',
-                    'hue': '<VAR>hue',
-                    'b1': '<VAR>B1',
-                    'b2': '<VAR>B2',
-                    'b3': '<VAR>B3',
-                    'b4': '<VAR>B4',
-                    'b5': '<VAR>B5',
-                    'b6': '<VAR>B6',
-                    'b7': '<VAR>B7'}
+                    'hue': '<VAR-LOC>hue',
+                    'b1': '<VAR-BUS>B1',
+                    'b2': '<VAR-BUS>B2',
+                    'b3': '<VAR-BUS>B3',
+                    'b4': '<VAR-BUS>B4',
+                    'b5': '<VAR-BUS>B5',
+                    'b6': '<VAR-BUS>B6',
+                    'b7': '<VAR-BUS>B7'}
 
 class Tokenize():
     def __init__(self, str: str):
@@ -46,7 +46,7 @@ class Tokenize():
 
         m = re.search("(\d+)\:(\d+)", output)
         if m is not None:
-            output = output[: m.start()] + "<VAR>" + output[m.start():]
+            output = output[: m.start()] + "<VAR-TIM>" + output[m.start():]
         return output.split()
 
 # print(Tokenize("Những xe nào xuất phát từ thành phố Hồ Chí Minh ?").parse())
