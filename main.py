@@ -2,7 +2,7 @@ import models
 import argparse
 
 def main():
-    parser: ArgumentParser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--cau", required=True, help='Câu b, c, d')
     # parser.add_argument("-i", "--input", required=True, help='Đường dẫn đên input file')
     # parser.add_argument("-o", "--output", required=True, help='Đường dẫn đên output file')
@@ -28,6 +28,11 @@ def main():
             out.append(query.produceQuery())
         elif args.cau == "d":
             out.append(query.answer(query.produceQuery()))
+        elif args.cau == "a":
+            tree.printTree()
+            out.append("\n".join(tree.getTree()))
+        else:
+            raise Exception("Don't support cau = {}".format(args.cau))
 
         outputFile = './output/output_{}.txt'.format(args.cau)
         with open(outputFile, "w") as fp:

@@ -1,0 +1,66 @@
+Thời gian xe bus B3 đi từ Đà Nẵng đến Hồ Chí Minh ?
+
+ROOT---None
+    di---root
+        xe_bus---lsubj
+            B3---<var>name
+        den---to-city
+            ho_chi_minh---<var>name
+        thoi_gian---time-query
+        tu---from-loc
+            da_nang---<var>name
+
+Những xe nào đi từ Đà nẵng đến thành phố Huế ?
+
+ROOT---None
+    di---root
+        den---to-city
+            thanh_pho---to-loc
+                hue---<var>name
+        nao---which-query
+            xe---lsubj
+            nhung---plural
+        tu---from-loc
+            da_nang---<var>name
+
+Xe bus nào đến thành phố Hồ Chí Minh ?
+
+ROOT---None
+    den---root
+        nao---which-query
+            xe_bus---lsubj
+        thanh_pho---to-loc
+            ho_chi_minh---<var>name
+
+Những xe nào xuất phát từ thành phố Hồ Chí Minh ?
+
+ROOT---None
+    xuat_phat---root
+        nao---which-query
+            xe---lsubj
+            nhung---plural
+        tu---from-loc
+            thanh_pho---to_loc
+                ho_chi_minh---<var>name
+
+Những xe bus nào đi đến Huế ?
+
+ROOT---None
+    di---root
+        den---to-city
+            hue---<var>name
+        nao---which-query
+            xe_bus---lsubj
+            nhung---plural
+
+Xe bus nào đến thành phố Huế lúc 8:30HR ?
+
+ROOT---None
+    den---root
+        nao---which-query
+            xe_bus---lsubj
+        luc---arrive-time
+            8:30hr---<var>time-hour
+        thanh_pho---to-loc
+            hue---<var>name
+

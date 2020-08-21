@@ -39,6 +39,7 @@ class TreeNode:
 class Tree:
     def __init__(self):
         self.__nodeTable = dict()
+        self.__tree = []
 
     def pushEdge(self, startKey, endKey, edgeType):
         parentNode = TreeNode(startKey)
@@ -63,9 +64,14 @@ class Tree:
             raise Exception("Cannot find {} in the tree\n{}".format(startNode, self.__nodeTable))
         node = self.__nodeTable[startNode]
         prefix = "    " * startspace
-        print(prefix + str(node))
+        # print(prefix + str(node))
+        self.__tree.append(prefix + str(node))
         for key in node.childKeys():
             self.printTree(startspace + 1, key)
+
+    def getTree(self):
+        return self.__tree
+
 
 
 # tree = Tree()
