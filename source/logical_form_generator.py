@@ -15,6 +15,7 @@ class QueryLogic:
         self.fromTime = None
         self.toTime = None
         self.busName = None
+        self.queryFunc = None
         self.queryTheme = None
         self.pluralQuery = False
 
@@ -74,10 +75,12 @@ class QueryLogic:
         rootNode = self.tree.getRoot()
         queryToNode = self.findEdgeNode(rootNode, "which-query")
         if queryToNode is not None:
-            return "which"
+            lsubjNode = self.findEdgeNode(queryToNode, "lsubj")
+            if lsubjNode is None: raise Exception("does not know which subject to query!!!")
+            return "scan", lsubjNode.nodeName(), True
         queryToNode = self.findEdgeNode(rootNode, "time-query")
         if queryToNode is not None:
-            return "time"
+            return "find", "time", False
         return None
 
     def parse(self):
@@ -85,20 +88,10 @@ class QueryLogic:
         self.toLocation = self.getToLoc()
         self.busName = self.getBusName()
         self.toTime = self.getToTime()
-        self.queryTheme = self.getQueryTheme()
+        self.queryFunc, self.queryTheme, self.pluralQuery = self.getQueryTheme()
 
     def answer(self):
-        if self.queryTheme == 'time':
-            return Database().getTimeFromBusFromToLocation(self.busName, self.fromLocation, self.toLocation)
-        if self.queryTheme == 'which':
-            if self.fromLocation is not None and self.toLocation is not None:
-                return Database().getBusNameFromToLocation(self.fromLocation, self.toLocation)
-            elif self.toLocation is not None and self.toTime is not None:
-                return Database().getBusFromDtimeAndToLocation(self.toTime, self.toLocation)
-            elif self.fromLocation is None and self.toLocation is not None:
-                return Database().getBusNameToLocation(self.toLocation)
-            elif self.fromLocation is not None and self.toLocation is None:
-                return Database().getBusNameFromLocation(self.fromLocation)
+        return Database().process(self)
 
 class LogicalFormParser:
     def __init__(self, tree):
@@ -173,8 +166,6 @@ class LogicalFormParser:
             describe.append(self.parseRootBranch(cnode, "e1"))
 
         return lform.format("    " + ("\n    ").join(describe))
-
-
 
 
 
