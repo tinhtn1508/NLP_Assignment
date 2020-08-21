@@ -100,10 +100,6 @@ class QueryLogic:
             elif self.fromLocation is not None and self.toLocation is None:
                 return Database().getBusNameFromLocation(self.fromLocation)
 
-
-
-
-
 class LogicalFormParser:
     def __init__(self, tree):
         if tree is None:
@@ -142,7 +138,7 @@ class LogicalFormParser:
                 obj = nodeType[5:].upper()
                 nodeName = nodeName.upper()
                 varName = self.chooseVarName(nodeName)
-                describe.append("<{} {} {}>".format(obj, varName, nodeName))
+                describe.append("({} {} {})".format(obj, varName, nodeName))
             elif "lsubj" == nodeType:
                 describe.append("({} {})".format(nodeName.upper(), self.chooseVarName(nodeName)))
             elif "plural" == nodeType:
