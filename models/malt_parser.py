@@ -1,8 +1,6 @@
-from stack import Stack
-from queue import Queue
-from tree import Tree
-from tokenize import Tokenize
-from database import ruleTable
+from .stack import Stack
+from .queue import Queue
+from .tree import Tree
 
 class MaltParser:
     def __init__(self, relationTable):
@@ -77,15 +75,3 @@ class MaltParser:
 
             stack.push(queue.dequeue())
         return tree
-
-# questions = ["Xe bus nào đến thành phố Huế lúc 20:00HR ?",
-#              "Thời gian xe bus B3 đi từ Đà Nẵng đến Huế ?",
-#              "Xe bus nào đến thành phố Hồ Chí Minh ?",
-#              "Những xe bus nào đi đến Huế ?",
-#              "Những xe nào xuất phát từ thành phố Hồ Chí Minh ?",
-#              "Những xe nào đi từ Đà nẵng đến thành phố Hồ Chí Minh ?"]
-
-# for question in questions:
-#     string = Tokenize(question).parse()
-#     parser = MaltParser(ruleTable)
-#     parser.parse(string).printTree()

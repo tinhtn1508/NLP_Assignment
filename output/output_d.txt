@@ -1,0 +1,24 @@
+Thời gian xe bus B3 đi từ Đà Nẵng đến Hồ Chí Minh ?
+
+['14:00HR']
+
+Những xe nào đi từ Đà nẵng đến thành phố Huế ?
+
+None
+
+Xe bus nào đến thành phố Hồ Chí Minh ?
+
+['B4', 'B3']
+
+Những xe nào xuất phát từ thành phố Hồ Chí Minh ?
+
+['B1', 'B2']
+
+Những xe bus nào đi đến Huế ?
+
+['B1', 'B2']
+
+Xe bus nào đến thành phố Huế lúc 8:30HR ?
+
+None
+

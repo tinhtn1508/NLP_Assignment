@@ -1,6 +1,4 @@
-from malt_parser import MaltParser
-from tokenize import Tokenize
-from database import ruleTable, Database
+from .database import Database
 
 class QueryLogic:
     def __init__(self, tree):
@@ -220,24 +218,3 @@ class LogicalFormParser:
             describe.append(self.parseRootBranch(cnode, "e1"))
 
         return lform.format("    " + ("\n    ").join(describe))
-
-
-questions = ["Thời gian xe bus B3 đi từ Đà Nẵng đến Hồ Chí Minh ?",
-             "Những xe nào đi từ Đà nẵng đến thành phố Huế ?",
-             "Xe bus nào đến thành phố Hồ Chí Minh ?",
-             "Những xe nào xuất phát từ thành phố Hồ Chí Minh ?",
-             "Những xe bus nào đi đến Huế ?",
-             "Xe bus nào đến thành phố Huế lúc 8:30HR ?"]
-
-for question in questions:
-    string = Tokenize(question).parse()
-    parser = MaltParser(ruleTable)
-    tree = parser.parse(string)
-    tree.printTree()
-    query = QueryLogic(tree)
-    query.parse()
-    logical = LogicalFormParser(tree)
-    # print(logical.parse())
-    print("Question: {}".format(question))
-    print("Answer: {}".format(query.answer(query.produceQuery())))
-
