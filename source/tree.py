@@ -33,6 +33,9 @@ class TreeNode:
     def nodeName(self):
         return self.key
 
+    def nodeType(self):
+        return self.edgeType
+
 class Tree:
     def __init__(self):
         self.__nodeTable = dict()
