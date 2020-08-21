@@ -90,8 +90,62 @@ class QueryLogic:
         self.toTime = self.getToTime()
         self.queryFunc, self.queryTheme, self.pluralQuery = self.getQueryTheme()
 
-    def answer(self):
-        return Database().process(self)
+    def getCityCode(self, name):
+        table = {
+            "da_nang": "DANANG",
+            "ho_chi_minh": "HCMC",
+            "hue": "HUE",
+        }
+        return table[name]
+
+    def produceQuery(self):
+        pattern = "( {} ?x {} )"
+        if self.queryTheme == "time":
+            return pattern.format(self.queryFunc.upper(), "( {} {} {} {} {} )".format(
+                "RUN-TIME",
+                self.busName,
+                self.getCityCode(self.fromLocation),
+                self.getCityCode(self.toLocation),
+                "?x"
+                )
+            )
+        else:
+            describe = []
+            describe.append("( BUS ?x )")
+            if self.fromLocation is not None:
+                describe.append("( {} {} {} {} )".format(
+                    "DTIME",
+                    "?x",
+                    self.getCityCode(self.fromLocation),
+                    "?t"
+                ))
+            if self.toLocation is not None or self.toTime is not None:
+                location = "?l"
+                if self.toLocation is not None:
+                    location = self.getCityCode(self.toLocation)
+                time = "?t"
+                if self.toTime is not None:
+                    time = self.toTime.upper()
+
+                describe.append("( {} {} {} {} )".format(
+                    "ATIME",
+                    "?x",
+                    location,
+                    time
+                ))
+        return pattern.format(self.queryFunc.upper(), "( {} )".format(" ".join(describe)))
+
+
+    def answer(self, queryStr):
+        return Database().process(queryStr)
+
+    def produceProceduralSemantic(self):
+        var = "x1"
+        if self.queryFunc is None or self.queryTheme is None:
+            raise Exception("cannot identify a question!!!")
+        func = self.queryFunc.upper()
+
+        return "({} ?{})"
 
 class LogicalFormParser:
     def __init__(self, tree):
@@ -184,11 +238,12 @@ for question in questions:
     string = Tokenize(question).parse()
     parser = MaltParser(ruleTable)
     tree = parser.parse(string)
-    # tree.printTree()
+    tree.printTree()
     query = QueryLogic(tree)
     query.parse()
     logical = LogicalFormParser(tree)
     print(logical.parse())
     print("Question: {}".format(question))
-    print("Answer: {}".format(query.answer()))
+    print(query.produceQuery())
+    # print("Answer: {}".format(query.answer()))
 
