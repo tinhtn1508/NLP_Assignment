@@ -222,11 +222,6 @@ class LogicalFormParser:
         return lform.format("    " + ("\n    ").join(describe))
 
 
-
-
-
-
-
 questions = ["Thời gian xe bus B3 đi từ Đà Nẵng đến Hồ Chí Minh ?",
              "Những xe nào đi từ Đà nẵng đến thành phố Huế ?",
              "Xe bus nào đến thành phố Hồ Chí Minh ?",
@@ -242,8 +237,7 @@ for question in questions:
     query = QueryLogic(tree)
     query.parse()
     logical = LogicalFormParser(tree)
-    print(logical.parse())
+    # print(logical.parse())
     print("Question: {}".format(question))
-    print(query.produceQuery())
-    # print("Answer: {}".format(query.answer()))
+    print("Answer: {}".format(query.answer(query.produceQuery())))
 
